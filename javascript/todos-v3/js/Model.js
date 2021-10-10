@@ -5,7 +5,16 @@ let currentFilter = 'all';
 
 const getTodos = () => todos;
 
-const getCurrentFilter = () => currentFilter;
+const getActiveTodos = () => todos.filter(todo => !todo.completed);
+
+const getCompletedTodos = () => todos.filter(todo => todo.completed);
+
+const getFilteredTodos = () =>
+  currentFilter === 'active'
+    ? getActiveTodos()
+    : currentFilter === 'completed'
+    ? getCompletedTodos()
+    : getTodos();
 
 const setTodos = newTodos => {
   todos = newTodos;
@@ -57,7 +66,9 @@ const removeAllCompletedTodos = () => {
 
 const Model = {
   getTodos,
-  getCurrentFilter,
+  getActiveTodos,
+  getCompletedTodos,
+  getFilteredTodos,
   setTodos,
   setFilter,
   fetchTodos,

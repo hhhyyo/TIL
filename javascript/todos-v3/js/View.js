@@ -10,15 +10,7 @@ const $filters = document.querySelector('.filters');
 const $clearCompleted = document.querySelector('.clear-completed');
 
 const render = () => {
-  const _todos = Model.getTodos().filter(todo =>
-    Model.getCurrentFilter() === 'active'
-      ? !todo.completed
-      : Model.getCurrentFilter() === 'completed'
-      ? todo.completed
-      : true
-  );
-
-  $todoList.innerHTML = _todos
+  $todoList.innerHTML = Model.getFilteredTodos()
     .map(
       ({ id, content, completed }) => `
         <li data-id="${id}">
@@ -38,15 +30,11 @@ const render = () => {
     $el.classList.toggle('hidden', !Model.getTodos().length)
   );
 
-  const activeTodos = Model.getTodos().filter(todo => !todo.completed);
-
-  $todoCount.textContent = `${activeTodos.length} ${
-    activeTodos.length > 1 ? 'items' : 'item'
+  $todoCount.textContent = `${Model.getActiveTodos().length} ${
+    Model.getActiveTodos().length > 1 ? 'items' : 'item'
   } left`;
 
-  const completedTodos = Model.getTodos().filter(todo => todo.completed);
-
-  $clearCompleted.classList.toggle('hidden', !completedTodos.length);
+  $clearCompleted.classList.toggle('hidden', !Model.getCompletedTodos().length);
 };
 
 const View = {
